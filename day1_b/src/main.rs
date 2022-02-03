@@ -1,36 +1,33 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-// use itertools::{Itertools, TupleWindows};
+use itertools::{Itertools};
 
 fn main() {
     match read_lines("./data.txt") {
-        Ok(lines) => {
-            let lines = lines
+        Ok(lines) => {    
+            let sum = lines
                 .map(|l| l.unwrap().parse::<i32>().expect("Could not parse line"))
-                .collect::<Vec<i32>>();
-            
-            let len = lines.len() - 3;
-            let mut last_sum_vector = 0;
-            let mut sum = 0;
-            for n in 0..=len  {
-                let sum_vector: i32 = [lines[n] + lines[n+1] + lines[n+2]].iter().sum();
-                if n > 0 && sum_vector > last_sum_vector {
-                    sum = sum + 1;
-                }
-                last_sum_vector = sum_vector;
-            }
+                .tuple_windows()
+                .map(|(a,b,c)| a + b + c)
+                .collect::<Vec<_>>()
+                .windows(2)
+                .filter(| pair| pair[1] > pair[0])
+                .count();
 
-            // let mut arr = Vec::new();
-            // let sum = arr.windows(2)
-            // .map(|pair| {
-            //     if pair[1] > pair[0] {
-            //         1
-            //     } else {
-            //         0
+                
+            // let sum = lines
+            //     .map(|l| l.unwrap().parse::<i32>().expect("Could not parse line"))
+            // let len = lines.len() - 3;
+            // let mut last_sum_vector = 0;
+            // let mut sum = 0;
+            // for n in 0..=len  {
+            //     let sum_vector: i32 = [lines[n] + lines[n+1] + lines[n+2]].iter().sum();
+            //     if n > 0 && sum_vector > last_sum_vector {
+            //         sum = sum + 1;
             //     }
-            // })
-            // .sum::<i32>();
+            //     last_sum_vector = sum_vector;
+            // }
 
             println!("sum - {:?}", sum);
         }
