@@ -53,11 +53,11 @@ fn main() {
 
             });
 
-            let v = get_bit_criteria(&lines_vec, 0, None);
-            let v_inversed = get_bit_criteria(&lines_vec, 0, Some(true));
+            let oxygen_rating = get_bit_criteria(&lines_vec, 0, None);
+            let co2_scrubber_rating = get_bit_criteria(&lines_vec, 0, Some(true));
             
-            let mult = to_u32(&v_inversed) * to_u32(&v);
-            println!("{:?}", mult);
+            let life_support_rating = to_u32(&co2_scrubber_rating) * to_u32(&oxygen_rating);
+            println!("{:?}", life_support_rating);
         },
         _ => ()
     }
